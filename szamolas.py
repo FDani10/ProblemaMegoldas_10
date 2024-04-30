@@ -1,40 +1,33 @@
-class board:
-    def __init__(self, n11, n12, n13, n21, n22, n23, n31, n32, n33):
-        self.r11 = n11
-        self.r12 = n12
-        self.r13 = n13
-        self.r21 = n21
-        self.r22 = n22
-        self.r23 = n23
-        self.r31 = n31
-        self.r32 = n32
-        self.r33 = n33
+import ctypes
+from solutions import showSolutions
+from boardClass import board
 
-    def __str__(self):
-        return f"{self.r11} | {self.r12} | {self.r13}\n{self.r21} | {self.r22} | {self.r23}\n{self.r31} | {self.r32} | {self.r33}\n"
-
+# Solver
 def getSecondCalc(fc, sc, num1, num2, num3):
-    firstCalculation = 0
-    match fc:
-        case "/":
-            firstCalculation = num1 / num2
-        case "*":
-            firstCalculation = num1 * num2
-        case "+":
-            firstCalculation = num1 + num2
-        case "-":
-            firstCalculation = num1 - num2
-    secondCalculation = 0
-    match sc:
-        case "/":
-            secondCalculation = firstCalculation / num3
-        case "*":
-            secondCalculation = firstCalculation * num3
-        case "+":
-            secondCalculation = firstCalculation + num3
-        case "-":
-            secondCalculation = firstCalculation - num3
-    return secondCalculation
+    try:
+        firstCalculation = 0
+        match fc:
+            case "/":
+                firstCalculation = num1 / num2
+            case "*":
+                firstCalculation = num1 * num2
+            case "+":
+                firstCalculation = num1 + num2
+            case "-":
+                firstCalculation = num1 - num2
+        secondCalculation = 0
+        match sc:
+            case "/":
+                secondCalculation = firstCalculation / num3
+            case "*":
+                secondCalculation = firstCalculation * num3
+            case "+":
+                secondCalculation = firstCalculation + num3
+            case "-":
+                secondCalculation = firstCalculation - num3
+        return secondCalculation
+    except ZeroDivisionError:
+        return 69
 
 def solveFirstRow(startBoard, firstC, secondC, answer):
     start1 = 0
@@ -104,20 +97,25 @@ def delBadBoards(boards,c11,c12,c21,c22,c31,c32,a1,a2,a3):
             unique.append(goodboards[i])
     boardsArray = unique
 
+def szamolj(variables):
+    global boardsArray
+    boardsArray = []
+    megvan = True
+    for i in range(len(variables)):
+        if variables[i].get() == " ":
+            megvan = False
 
+    if megvan:
+        sb = board(None, None, None, None, int(variables[7].get()), None, None, None, None)
 
-sb = board(None, None, None, None, 5, None, None, None, None)
+        solveFirstRow(sb, variables[6].get(), variables[8].get(), int(variables[9].get()))
 
-boardsArray = []
-solveFirstRow(sb, "+", "+", 6)
+        solveColumn(boardsArray, variables[3].get(), variables[10].get(), int(variables[16].get()), 1)
+        solveColumn(boardsArray, variables[4].get(), variables[11].get(), int(variables[17].get()), 2)
+        solveColumn(boardsArray, variables[5].get(), variables[12].get(), int(variables[18].get()), 3)
 
-solveColumn(boardsArray, "-", "*", 8, 1)
-solveColumn(boardsArray, "+", "-", 1, 2)
-solveColumn(boardsArray, "*", "+", 5, 3)
+        delBadBoards(boardsArray,variables[0].get(),variables[1].get(),variables[6].get(),variables[8].get(),variables[13].get(),variables[14].get(),int(variables[2].get()),int(variables[9].get()),int(variables[15].get()))
 
-delBadBoards(boardsArray,"-","+","+","+","+","-",4,6,6)
-
-print(f"Lehetséges jó válaszok: {len(boardsArray)}\n")
-for i in range(len(boardsArray)):
-    print(f"{i+1}:")
-    print(boardsArray[i])
+        showSolutions(boardsArray,variables)
+    else:
+        ctypes.windll.user32.MessageBoxW(0, "Töltsön ki minden mezőt!", "Hiba!", 0)
