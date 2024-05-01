@@ -4,6 +4,7 @@ from PIL import Image,ImageTk
 def runInfo():
     info = Toplevel()
     info.geometry("500x500")
+    info.resizable(False,False)
     info["bg"] = "#BBFBFF"
     info.title("Információ")
 

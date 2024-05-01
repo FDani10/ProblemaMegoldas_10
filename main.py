@@ -21,6 +21,7 @@ root = Tk()
 
 root.geometry("670x714")
 root["bg"] = "#BBFBFF"
+root.resizable(False,False)
 root.title("Rejtvény megoldó")
 ico = Image.open('./pics/greenBlock.ico')
 photo = ImageTk.PhotoImage(ico)

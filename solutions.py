@@ -9,8 +9,11 @@ root = None
 
 def showSolutions(boardsArray,variables):
     global root
+    global canvases
+    canvases = []
     root = Toplevel()
     root.geometry("870x714")
+    root.resizable(False,False)
     root["bg"] = "#BBFBFF"
     root.title("Megoldások")
 
@@ -256,8 +259,8 @@ def showSolutions(boardsArray,variables):
                 ar.place(x=795,y=350,width=58,height=94)
 
     else:
-        nincs = Label(root,text="Nincs megoldása ennek a rejtvénynek!")
-        nincs.place(x=50,y=300)
+        nincs = Label(root,text="Nincs megoldása ennek\n a rejtvénynek!",bg="#BBFBFF",font=('Ariel',40))
+        nincs.place(x=100,y=300)
 
     root.mainloop()
 
